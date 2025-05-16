@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 const API = process.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -36,24 +36,59 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '400px', margin: 'auto' }}>
-      <h2>Yeni Şifre Belirle</h2>
-      <input
-        type="password"
-        placeholder="Yeni şifre"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ width: '100%', marginBottom: '1rem' }}
-      />
-      <input
-        type="password"
-        placeholder="Şifreyi tekrar girin"
-        value={confirm}
-        onChange={(e) => setConfirm(e.target.value)}
-        style={{ width: '100%', marginBottom: '1rem' }}
-      />
-      <button onClick={handleReset}>Şifreyi Güncelle</button>
-      {message && <p style={{ marginTop: '1rem' }}>{message}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
+          Yeni Şifre Belirle
+        </h2>
+        {message && (
+          <div
+            className={`mb-4 text-center text-sm ${
+              message.includes('hata') ? 'text-red-500' : 'text-green-500'
+            }`}
+          >
+            {message}
+          </div>
+        )}
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleReset();
+          }}
+        >
+          <input
+            type="password"
+            placeholder="Yeni şifre"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Şifreyi tekrar girin"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          >
+            Şifreyi Güncelle
+          </button>
+        </form>
+        <div className="text-center mt-4">
+          <Link
+            to="/login"
+            className="text-indigo-600 hover:underline text-sm"
+          >
+            Girişe Dön
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
